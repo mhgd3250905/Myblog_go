@@ -1,0 +1,95 @@
+{{template "header".}}
+<!-- Include Quill stylesheet -->
+<link href="https://cdn.quilljs.com/1.0.0/quill.snow.css" rel="stylesheet">
+<title>添加文章 - 我的 beego 博客</title>
+</head>
+<body style="padding-top: 70px">
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        {{template "navbar".}}
+    </div>
+</div>
+
+<div class="container">
+    <h1>添加文章</h1>
+    <form method="post" action="/topic" enctype="multipart/form-data" id="formTopic">
+        <div class="form-group">
+            <label>文章标题</label>
+            <input type="text" name="title" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>文章类别</label>
+            <input type="text" name="category" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>文章标签</label>
+            <input type="text" name="label" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label>文章内容</label>
+            <!--<textarea name="content" cols="30" rows="10" class="form-control"></textarea>-->
+            <input id="content" type="hidden" name="content">
+            <!-- Create the toolbar container -->
+            <!-- Create the editor container -->
+            <div id="editor">
+
+            </div>
+            <div id="test">测试</div>
+        </div>
+
+        <div class="form-group">
+            <label>文章附件</label>
+            <input type="file" name="attachment" class="form-control">
+        </div>
+        <button id="submit" type="submit" class="btn btn-default">添加文章</button>
+    </form>
+</div>
+
+<script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.2.1/core.js"/>
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+<script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
+<!-- Initialize Quill editor -->
+<script>
+    var toolbarOptions = [
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['blockquote', 'code-block'],
+
+        [{'header': 1}, {'header': 2}],               // custom button values
+        [{'list': 'ordered'}, {'list': 'bullet'}],
+        [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+        [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+        [{'direction': 'rtl'}],                         // text direction
+
+        [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+        [{'header': [1, 2, 3, 4, 5, 6, false]}],
+
+        [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+        [{'font': []}],
+        [{'align': []}],
+
+        ['clean']                                         // remove formatting button
+    ];
+
+    var quill = new Quill('#editor', {
+        modules: {
+            toolbar: toolbarOptions
+        },
+        theme: 'snow'
+    });
+
+    $(document).ready(function () {
+        $("#test").click(function () {
+                alert(quill.container.firstChild.innerHTML);
+            }
+        );
+
+        $("#submit").click(function () {
+            $("#content").val(quill.container.firstChild.innerHTML);
+            $("#formTopic").submit();
+        });
+    });
+
+</script>
+</body>
+</html>
