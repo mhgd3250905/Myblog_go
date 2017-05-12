@@ -14,7 +14,9 @@ type TopicController struct {
 func (this *TopicController)Get()  {
 	this.Data["IsTopic"]=true
 	this.TplName="topic.html"
-	this.Data["IsLogin"]=checkAccount(this.Ctx)
+	uname:=this.GetSession("uname")
+	pwd:=this.GetSession("pwd")
+	this.Data["IsLogin"] = checkAccount(uname, pwd)
 	topics,err:=models.GetAllTopics("","",false)
 	beego.Warn(len(topics))
 	if err != nil {
@@ -26,17 +28,25 @@ func (this *TopicController)Get()  {
 }
 
 func (this *TopicController) Post()  {
-	if !checkAccount(this.Ctx) {
+	uname:=this.GetSession("uname")
+	pwd:=this.GetSession("pwd")
+	this.Data["IsLogin"] = checkAccount(uname, pwd)
+	//判断是否登录
+	if !checkAccount(uname, pwd) {
 		beego.Warn("添加文章操作，没有登录，请登录！")
 		this.Redirect("/login",302)
 		return
 	}
-	this.Data["IsLogin"]=checkAccount(this.Ctx)
-	title:=this.Input().Get("title")
-	category:=this.Input().Get("category")
-	label:=this.Input().Get("label")
-	content:=this.Input().Get("content")
-	tid:=this.Input().Get("tid")
+
+	//将form提交数据映射到struct
+	testTopic:=models.Topic{}
+	if err:=this.ParseForm(&testTopic);err!=nil{
+		beego.Error(err)
+	}
+	beego.Info("获取到Topic-----------------------------")
+	beego.Info(testTopic)
+	beego.Info("获取到Topic-----------------------------")
+
 
 	//获取附件
 	_,fh,err:=this.GetFile("attachment")
@@ -57,9 +67,18 @@ func (this *TopicController) Post()  {
 
 	}
 
-	if len(tid)==0 {
-		err=models.AddTopic(title,category,label,content,attachment)
+	//设置附件
+	testTopic.Attachment=attachment
+
+	//判断是否上传tid：如果有，就是新增文章 否则就是修改文章
+	if len(this.Input().Get("tid"))==0 {
+		err=models.AddTopic(&testTopic)
 	}else {
+		title:=this.Input().Get("title")
+		category:=this.Input().Get("category")
+		label:=this.Input().Get("label")
+		content:=this.Input().Get("content")
+		tid:=this.Input().Get("tid")
 		err=models.ModifyTopic(tid,title,category,label,content,attachment)
 	}
 
@@ -72,6 +91,11 @@ func (this *TopicController) Post()  {
 
 //增加文章
 func (this *TopicController)Add()  {
+	categories,err:=models.GetAllCategories()
+	if err!=nil {
+		beego.Error(err)
+	}
+	this.Data["Categories"]=categories
 	this.TplName="topic_add.html"
 }
 
@@ -103,7 +127,9 @@ func (this *TopicController)View()  {
 		return
 	}
 	this.Data["Replies"]=replies
-	this.Data["IsLogin"]=checkAccount(this.Ctx)
+	uname:=this.GetSession("uname")
+	pwd:=this.GetSession("pwd")
+	this.Data["IsLogin"] = checkAccount(uname, pwd)
 }
 
 func (this *TopicController)Modify(){
@@ -121,7 +147,9 @@ func (this *TopicController)Modify(){
 }
 
 func (this *TopicController)Delete()  {
-	if !checkAccount(this.Ctx) {
+	uname:=this.GetSession("uname")
+	pwd:=this.GetSession("pwd")
+	if !checkAccount(uname,pwd) {
 		beego.Warn("删除文章操作，没有登录，请登录！")
 		this.Redirect("/login",302)
 		return

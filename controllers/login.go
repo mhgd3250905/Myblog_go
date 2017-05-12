@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/context"
 	"log"
 	"fmt"
 )
@@ -15,8 +14,8 @@ func (this*LoginController) Get() {
 	isExit := this.Input().Get("exit")=="true"
 	if isExit {
 		log.Println(isExit)
-		this.Ctx.SetCookie("uname","",-1,"/")
-		this.Ctx.SetCookie("pwd", "",-1, "/")
+		this.DelSession("uname")
+		this.DelSession("pwd")
 		this.Redirect("/",302)
 		return
 	}
@@ -43,15 +42,41 @@ func (this*LoginController) Post() {
 		}
 		this.Ctx.SetCookie("uname", uname, maxAge,"/")
 		this.Ctx.SetCookie("pwd", pwd, maxAge, "/")
+
+		v:=this.GetSession("uname")
+		if v == nil {
+			this.SetSession("uname",uname)
+		}else {
+			this.SetSession("uname",uname)
+		}
+
+		v=this.GetSession("pwd")
+		if v == nil {
+			this.SetSession("pwd",pwd)
+		}else {
+			this.SetSession("pwd",pwd)
+		}
+
 		this.Redirect("/", 302)
 	}
 }
 
+////检测账号密码是否正确
+//func checkAccount(ctx *context.Context) bool {
+//	uname:=ctx.GetCookie("uname")
+//	pwd :=ctx.GetCookie("pwd")
+//	beego.Info("获取到Cookie：uname: ",uname," pwd: ",pwd)
+//	fmt.Printf("uname: %s,pwd: %s",uname,pwd)
+//	return (beego.AppConfig.String("uname") == uname && beego.AppConfig.String("pwd") == pwd)
+//}
+
 //检测账号密码是否正确
-func checkAccount(ctx *context.Context) bool {
-	uname:=ctx.GetCookie("uname")
-	pwd :=ctx.GetCookie("pwd")
-	beego.Info("获取到Cookie：uname: ",uname," pwd: ",pwd)
+
+/**
+使用传入的数据来判断用户是否登录
+*/
+func checkAccount(uname,pwd interface{}) bool {
+	beego.Info("获取到Sessionn内容：uname: ",uname," pwd: ",pwd)
 	fmt.Printf("uname: %s,pwd: %s",uname,pwd)
 	return (beego.AppConfig.String("uname") == uname && beego.AppConfig.String("pwd") == pwd)
 }

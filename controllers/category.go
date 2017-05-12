@@ -16,8 +16,12 @@ func (this *CategoryController) Get() {
 	beego.Warn("当前URL为：", this.Ctx.Request.RequestURI)
 	beego.Warn("当前操作为：", op)
 
+	uname:=this.GetSession("uname")
+	pwd:=this.GetSession("pwd")
+	this.Data["IsLogin"] = checkAccount(uname,pwd)
+
 	if strings.EqualFold(op, "del") {
-		if !checkAccount(this.Ctx) {
+		if !checkAccount(uname,pwd) {
 			beego.Warn("删除category操作，没有登录，请登录！")
 			this.Redirect("/login", 302)
 			return
@@ -42,7 +46,7 @@ func (this *CategoryController) Get() {
 	if err != nil {
 		beego.Error(err)
 	}
-	this.Data["IsLogin"] = checkAccount(this.Ctx)
+
 }
 
 func (this *CategoryController) Post() {
@@ -50,8 +54,11 @@ func (this *CategoryController) Post() {
 	beego.Warn("当前URL为：", this.Ctx.Request.RequestURI)
 	beego.Warn("当前操作为：", op)
 
+	uname:=this.GetSession("uname")
+	pwd:=this.GetSession("pwd")
+
 	if strings.EqualFold(op, "add") {
-		if !checkAccount(this.Ctx) {
+		if !checkAccount(uname,pwd) {
 			beego.Warn("添加category操作，没有登录，请登录！")
 			this.Redirect("/login", 302)
 			return

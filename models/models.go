@@ -28,20 +28,20 @@ type Category struct {
 }
 
 type Topic struct {
-	Id              int64                     //文章ID
-	Uid             int64                     //用户ID
-	Title           string                    //标题
-	Category        string                    //分类
-	Label           string                    //标签
-	Content         string `orm:"size(5000)"` //内容
-	Attachment      string                    //浏览次数
-	Created         time.Time `orm:"index"`   //创建时间，可索引排序
-	Updated         time.Time `orm:"index"`   //更新时间，可索引排序
-	Views           int64                     //浏览次数
-	Author          string                    //作者
-	ReplyTime       time.Time                 //回复时间
-	ReplyCount      int64                     //回复数量
-	ReplyLastUserId int64                     //最后回复用户
+	Id              int64   `form:"tid"`                      //文章ID
+	Uid             int64   `form:"uid"`                      //用户ID
+	Title           string  `form:"title"`                    //标题
+	Category        string  `form:"category"`                 //分类
+	Label           string  `form:"label"`                    //标签
+	Content         string  `form:"content" orm:"size(5000)"` //内容
+	Attachment      string                                    //浏览次数
+	Created         time.Time `orm:"index"`                   //创建时间，可索引排序
+	Updated         time.Time `orm:"index"`                   //更新时间，可索引排序
+	Views           int64                                     //浏览次数
+	Author          string                                    //作者
+	ReplyTime       time.Time                                 //回复时间
+	ReplyCount      int64                                     //回复数量
+	ReplyLastUserId int64                                     //最后回复用户
 }
 
 type Comment struct {
@@ -139,23 +139,17 @@ func DelTopic(category, tid string) error {
 }
 
 //添加文章
-func AddTopic(title, category, label, content, attachment string) error {
+func AddTopic(topic *Topic) error {
 	//处理标签
-	label = "$" + strings.Join(strings.Split(label, " "), "#$") + "#"
+	topic.Label = "$" + strings.Join(strings.Split(topic.Label, " "), "#$") + "#"
 	//空格作为多个标签的分隔
 	//"beego orm"-->[beego,orm]-->"$beego#$orm#"
 
 	o := orm.NewOrm()
-	topic := &Topic{
-		Title:      title,
-		Content:    content,
-		Attachment: attachment,
-		Created:    time.Now(),
-		Updated:    time.Now(),
-		ReplyTime:  time.Now(),
-		Category:   category,
-		Label:      label,
-	}
+	topic.Created=time.Now()
+	topic.Updated=time.Now()
+	topic.ReplyTime=time.Now()
+
 	_, err := o.Insert(topic)
 	if err != nil {
 		return err
@@ -163,7 +157,7 @@ func AddTopic(title, category, label, content, attachment string) error {
 	//更新分类统计
 	cate := new(Category)
 	qs := o.QueryTable("category")
-	err = qs.Filter("title", category).One(cate)
+	err = qs.Filter("title", topic.Category).One(cate)
 	if err == nil {
 		cate.TopicTime = time.Now()
 		cate.TopicCount++
@@ -172,6 +166,41 @@ func AddTopic(title, category, label, content, attachment string) error {
 	}
 	return err
 }
+
+////添加文章
+//func AddTopic(title, category, label, content, attachment string) error {
+//	//处理标签
+//	label = "$" + strings.Join(strings.Split(label, " "), "#$") + "#"
+//	//空格作为多个标签的分隔
+//	//"beego orm"-->[beego,orm]-->"$beego#$orm#"
+//
+//	o := orm.NewOrm()
+//	topic := &Topic{
+//		Title:      title,
+//		Content:    content,
+//		Attachment: attachment,
+//		Created:    time.Now(),
+//		Updated:    time.Now(),
+//		ReplyTime:  time.Now(),
+//		Category:   category,
+//		Label:      label,
+//	}
+//	_, err := o.Insert(topic)
+//	if err != nil {
+//		return err
+//	}
+//	//更新分类统计
+//	cate := new(Category)
+//	qs := o.QueryTable("category")
+//	err = qs.Filter("title", category).One(cate)
+//	if err == nil {
+//		cate.TopicTime = time.Now()
+//		cate.TopicCount++
+//		_, err = o.Update(cate)
+//		return err
+//	}
+//	return err
+//}
 
 /**
 	获取所有文章
@@ -219,6 +248,8 @@ func GetTopic(tid string) (*Topic, error) {
 	return topic, err
 }
 
+
+
 func ModifyTopic(tid, title, category, label, content, attachment string) error {
 	tidNum, err := strconv.ParseInt(tid, 10, 64)
 	if err != nil {
@@ -248,8 +279,8 @@ func ModifyTopic(tid, title, category, label, content, attachment string) error 
 	}
 
 	//删除旧的附件
-	if len(oldAttach) >=0 && !strings.EqualFold(oldAttach,attachment){
-		os.Remove(path.Join("attachment",oldAttach))
+	if len(oldAttach) >= 0 && !strings.EqualFold(oldAttach, attachment) {
+		os.Remove(path.Join("attachment", oldAttach))
 	}
 
 	//更新分类统计

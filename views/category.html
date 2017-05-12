@@ -16,7 +16,8 @@
                     <input id="name" class="form-control" placeholder="enter account" name="name" autocomplete="off">
                 </div>
                 <input type="hidden" name="op" value="add">
-                <button type="submit" class="btn btn-default" onclick="return checkInput()">添加</button>
+                <button type="submit" class="btn btn-info" onclick="return checkInput()">
+                    <span class="glyphicon glyphicon-plus"></span> 添加主题</button>
             </form>
             <script type="text/javascript">
                 function checkInput() {
@@ -31,7 +32,6 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th>#</th>
                         <th>名称</th>
                         <th>文章数</th>
                         <th>操作</th>
@@ -40,11 +40,10 @@
                 <tbody>
                     {{range .Categories}}
                     <tr>
-                        <th>{{.Id}}</th>
                         <th>{{.Title}}</th>
                         <th>{{.TopicCount}}</th>
                         <th>
-                            <a href="/category?op=del&id={{.Id}}">删除</a>
+                            <a href="/category?op=del&id={{.Id}}"><span class="btn btn-warning btn-xs">删除</span></a>
                         </th>
                     </tr>
                     {{end}}

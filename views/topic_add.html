@@ -17,10 +17,19 @@
             <label>文章标题</label>
             <input type="text" name="title" class="form-control">
         </div>
+
         <div class="form-group">
             <label>文章类别</label>
-            <input type="text" name="category" class="form-control">
+            <!--<input type="hidden" name="category" class="form-control">-->
+            <select class="form-control" name="category">
+                {{range .Categories}}
+                <option>{{.Title}}</option>
+                {{end}}
+                <option><a href="#">新增类别</a></option>
+            </select>
         </div>
+
+
         <div class="form-group">
             <label>文章标签</label>
             <input type="text" name="label" class="form-control">
@@ -28,14 +37,12 @@
 
         <div class="form-group">
             <label>文章内容</label>
-            <!--<textarea name="content" cols="30" rows="10" class="form-control"></textarea>-->
             <input id="content" type="hidden" name="content">
             <!-- Create the toolbar container -->
             <!-- Create the editor container -->
             <div id="editor">
 
             </div>
-            <div id="test">测试</div>
         </div>
 
         <div class="form-group">
@@ -46,8 +53,9 @@
     </form>
 </div>
 
-<script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.2.1/core.js"/>
+<script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.2.1/core.js"></script>
 <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+
 <script src="https://cdn.quilljs.com/1.0.0/quill.js"></script>
 <!-- Initialize Quill editor -->
 <script>
@@ -79,11 +87,6 @@
     });
 
     $(document).ready(function () {
-        $("#test").click(function () {
-                alert(quill.container.firstChild.innerHTML);
-            }
-        );
-
         $("#submit").click(function () {
             $("#content").val(quill.container.firstChild.innerHTML);
             $("#formTopic").submit();
