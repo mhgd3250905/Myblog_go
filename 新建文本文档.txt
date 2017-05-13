@@ -1,0 +1,2 @@
+netsh interface ipv6 install
+netsh interface portproxy add v4tov4 listenaddress=172.20.53.1 listenport=14941 connectaddress=172.20.53.2 connectport=3389

@@ -49,35 +49,64 @@
 
     {{str2html .Topic.Content}}
 
-    <hr>
-
     <h5>文章附件：<a href="/attachment/{{.Topic.Attachment}}">{{.Topic.Attachment}}</a></h5>
 </div>
+
 
 <div class="container">
     {{$tid:=.Topic.Id}}
     {{$isLogin:=.IsLogin}}
     {{range .Replies}}
-    <h3>{{.Name}}
-        <small>{{.Created}}</small>
-        {{if $isLogin}}<a href="/reply/delete?tid={{$tid}}&rid={{.Id}}">删除</a>{{end}}
-    </h3>
-    {{.Content}}
-    {{end}}
-    <h3>本文回复</h3>
-    <form method="post" action="/reply/add">
-        <input type="hidden" name="tid" value="{{.Topic.Id}}">
-        <div class="form-group">
-            <label>显示昵称：</label>
-            <input type="text" class="form-control" name="nickname">
+    <hr>
+    <!--评论时间-->
+    <div>
+        <small>{{dateformat .Created "2006-01-02 15:04:05"}}</small>
+    </div>
+    <!--昵称-->
+    <div>
+        <div>
+            <div class="h3">{{.Name}}</div>
+            {{if $isLogin}}
+            <a href="/reply/delete?tid={{$tid}}&rid={{.Id}}" class="pull-right">
+                <span class="glyphicon glyphicon-remove"></span>
+            </a>
+            {{end}}
         </div>
+    </div>
 
-        <div class="form-group">
-            <label>内容：</label>
-            <textarea name="content" id="" cols="30" rows="10" class="form-control"></textarea>
-        </div>
-        <button class="btn btn-default">提交回复</button>
-    </form>
+
+    <!--评论内容-->
+    <div>
+        {{.Content}}
+    </div>
+    {{end}}
+    <!--如果已经登陆那么就显示评论界面，
+    -->
+    <div class="container topic_comment">
+        {{if .IsLogin}}
+        <h3>本文回复</h3>
+        <form method="post" action="/reply/add">
+            <input type="hidden" name="tid" value="{{.Topic.Id}}">
+            <div class="form-group">
+                <label>显示昵称：</label>
+                <input type="text" class="form-control" name="nickname">
+            </div>
+
+            <div class="form-group">
+                <label>内容：</label>
+                <textarea name="content" id="" cols="30" rows="10" class="form-control"></textarea>
+            </div>
+            <button class="btn btn-default">提交回复</button>
+        </form>
+        {{else}}
+        <pre>
+            <div class="topic_comment_login">
+                <a class="btn btn-warning" href="/login">登陆</a> 后发表评论
+            </div>
+        </pre>
+        {{end}}
+    </div>
+
 </div>
 
 <script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.2.1/core.js"></script>

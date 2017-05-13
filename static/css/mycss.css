@@ -1,23 +1,34 @@
-body{
+body {
     padding-top: 70px;
 }
 
 /*设置表格中的操作元素颜色样式*/
-.option{
-    color:white;
+.option {
+    color: white;
 }
 
-.option:hover{
+.option:hover {
     color: #0f0f0f;
 }
 
 /*设置所有的表格中的元素居中*/
-th{
-    text-align:center;
+th {
+    text-align: center;
 }
 
-
 /*文章样式*/
-.topic_title{
+.topic_title {
     margin-bottom: 30px;
+}
+
+#editor {
+    height: 300px;
+}
+
+.topic_comment{
+    margin-top: 30px;
+}
+
+.topic_comment_login{
+    text-align: center;
 }
