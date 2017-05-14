@@ -12,8 +12,10 @@
     <div class="col-md-9 col-sm-9 col-xs-9">
         {{range .Topics}}
         <div class="page-header">
-            <h6 class="text-muted">文章发表于 {{dateformat .Created "2006-01-02 15:04:05"}}</h6>
-            <h1><a href="/topic/view/{{.Id}}" class="text-muted"><b>{{.Title}}</b></a></h1>
+            <h6 class="text-muted">文章发表于 {{dateformat .Created "2006-01-02 15:04:05"}}</h6 class="text-muted">
+            <div class="home_title">
+                <h1><a href="/topic/view/{{.Id}}"><b>{{.Title}}</b></a></h1>
+            </div>
             <h6 class="text-muted">
                 <span class="glyphicon glyphicon-eye-open" style="margin-right: 5px;"></span>{{.Views}}
                 <span class="glyphicon glyphicon-comment" style="margin-right: 5px;"></span>{{.ReplyCount}}

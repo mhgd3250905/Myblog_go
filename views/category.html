@@ -2,6 +2,7 @@
       <title>分类 - 我的 beego 博客</title>
     </head>
     <body style="padding-top: 70px">
+    {{$isLogin:=.IsLogin}}
         <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 {{template "navbar".}}
@@ -9,7 +10,12 @@
         </div>
 
         <div class="container">
-            <h1>分类列表</h1>
+            <div class="page-header">
+                <h1>
+                   <b>主题列表</b>
+                </h1>
+            </div>
+            {{if $isLogin}}
             <form method="post" action="/category">
                 <div class="form-group">
                     <label>分类名称</label>
@@ -29,12 +35,15 @@
                     return true
                 }
             </script>
+            {{end}}
             <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>名称</th>
                         <th>文章数</th>
+                        {{if $isLogin}}
                         <th>操作</th>
+                        {{end}}
                     </tr>
                 </thead>
                 <tbody>
@@ -42,9 +51,11 @@
                     <tr>
                         <th>{{.Title}}</th>
                         <th>{{.TopicCount}}</th>
+                        {{if $isLogin}}
                         <th>
                             <a href="/category?op=del&id={{.Id}}"><span class="btn btn-warning btn-xs">删除</span></a>
                         </th>
+                        {{end}}
                     </tr>
                     {{end}}
                 </tbody>

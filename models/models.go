@@ -145,6 +145,7 @@ func AddTopic(topic *Topic) error {
 	//空格作为多个标签的分隔
 	//"beego orm"-->[beego,orm]-->"$beego#$orm#"
 
+
 	o := orm.NewOrm()
 	topic.Created=time.Now()
 	topic.Updated=time.Now()

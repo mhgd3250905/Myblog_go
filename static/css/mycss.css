@@ -2,6 +2,25 @@ body {
     padding-top: 70px;
 }
 
+a {
+    cursor: pointer;
+    color: #333333;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #333333;
+    text-decoration-color: #333333;
+}
+
+.home_title {
+    margin: -7px 0 4px;
+    display: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
 /*设置表格中的操作元素颜色样式*/
 .option {
     color: white;
@@ -25,10 +44,10 @@ th {
     height: 300px;
 }
 
-.topic_comment{
+.topic_comment {
     margin-top: 30px;
 }
 
-.topic_comment_login{
+.topic_comment_login {
     text-align: center;
 }

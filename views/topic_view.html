@@ -11,37 +11,29 @@
 <div class="container">
     {{$label:=.Label}}
     <!--标题+编辑位置-->
-    <div class="row">
         <div class="h1 topic_title">
             {{.Topic.Title}}
             <div class="pull-right">
                 <a href="/topic/modify?tid={{.Tid}}" class="btn btn-default">修改文章</a>
             </div>
         </div>
-    </div>
 
-    <!--事件栏位-->
-    <div class="row">
-        <div class="pull-left"><p>{{dateformat .Topic.Updated "2006-01-02 15:04:05"}}</p></div>
-    </div>
+    <!--时间栏位-->
 
-    <!--分类栏位-->
-    <div class="row">
-        <span class="glyphicon glyphicon-th-large"></span>
-        <span class="label label-primary">{{.Topic.Category}}</span>
-    </div>
+        <p>{{dateformat .Topic.Updated "2006-01-02 15:04:05"}}</p>
 
-    <!--标签栏位-->
-    <div class="row">
-        <div class="pull-left">
-            <h5>
-                <span class="glyphicon glyphicon-tag"></span>
-                {{range $label}}
-                <span class="label label-success"><a href="/?label={{.}}">{{.}}</a></span>
-                {{end}}
-            </h5>
+
+        <!--分类栏位-->
+        <div>
+            <span class="glyphicon glyphicon-th-large"></span>
+            <a href="/?cate={{.Topic.Category}}">{{.Topic.Category}}</a>
+            <span class="glyphicon glyphicon-tag"></span>
+            {{range $label}}
+            <span class="label label-success"></span>{{.}}
+            {{end}}
+            <span class="glyphicon glyphicon-eye-open" style="margin-right: 5px;"></span>{{.Topic.Views}}
+            <span class="glyphicon glyphicon-comment" style="margin-right: 5px;"></span>{{.Topic.ReplyCount}}
         </div>
-    </div>
 
 
     <hr>
@@ -94,7 +86,7 @@
 
             <div class="form-group">
                 <label>内容：</label>
-                <textarea name="content" id="" cols="30" rows="10" class="form-control"></textarea>
+                <textarea name="content" id="" cols="30" rows="2" class="form-control"></textarea>
             </div>
             <button class="btn btn-default">提交回复</button>
         </form>

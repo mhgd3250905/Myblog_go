@@ -1,0 +1,18 @@
+/*这里是描素login界面的样式表*/
+
+.login_container {
+    width: 500px;
+    height: 500px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-left: -250px;
+    margin-top: -250px;
+}
+
+.login_form{
+    padding: 30px;
+    border:2px solid;
+    border-radius: 10px;
+    box-shadow: 10px 10px 5px #888888;
+}

@@ -1,9 +1,11 @@
 {{template "header"}}
+<link href="/static/css/logincss.css" rel="stylesheet">
 <title>登录 - 我的 beego 博客</title>
 </head>
 <body>
-    <div class="container" style="width: 500px">
-        <form method="post" action="/login">
+<div class="container">
+    <div class="login_container">
+        <form method="post" action="/login" class="login_form">
             <div class="form-group">
                 <label>Account</label>
                 <input id="uname" class="form-control" placeholder="enter account" name="uname">
@@ -25,23 +27,24 @@
 
         <script type="text/javascript">
             function checkInput() {
-                var uname=document.getElementById("uname")
-                if(uname.value.length==0){
+                var uname = document.getElementById("uname")
+                if (uname.value.length == 0) {
                     alert("请输入账号")
                     return false
                 }
-                var pwd=document.getElementById("pwd")
-                if(pwd.value.length==0){
+                var pwd = document.getElementById("pwd")
+                if (pwd.value.length == 0) {
                     alert("请输入密码")
                     return false
                 }
                 return true
             }
             function backToHome() {
-                window.location.href="/";
+                window.location.href = "/";
                 return false
             }
         </script>
     </div>
+</div>
 </body>
 </html>

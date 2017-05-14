@@ -2,24 +2,35 @@
       <title>文章 - 我的 beego 博客</title>
     </head>
     <body style="padding-top: 70px">
+    {{$isLogin:=.IsLogin}}
         <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 {{template "navbar".}}
             </div>
         </div>
             <div class="container">
-                <h1>文章列表</h1>
+                <div class="page-header">
+                    <h1>
+                        <b>文章列表</b>
+                    </h1>
+                </div>
+                {{if $isLogin}}
                 <a href="/topic/add" class="btn btn-info">
-                    <span class="glyphicon glyphicon-plus"></span> 添加文章</a>
+                    <span class="glyphicon glyphicon-plus"></span> 添加文章
+                </a>
+                {{end}}
+
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>文章名称</th>
-                            <th>最后更新</th>
-                            <th>浏览</th>
-                            <th>回复数</th>
-                            <th>最后回复</th>
-                            <th>操作</th>
+                            <th style="width:40%;">文章名称</th>
+                            <th style="width:20%;">最后更新</th>
+                            <th style="width:5%;">浏览</th>
+                            <th style="width:5%;">回复</th>
+                            <th style="width:20%;">最后回复</th>
+                            {{if $isLogin}}
+                            <th style="width:10%;">操作</th>
+                            {{end}}
                         </tr>
                     </thead>
 
@@ -32,6 +43,7 @@
                             <th>{{.Views}}</th>
                             <th>{{.ReplyCount}}</th>
                             <th>{{dateformat .ReplyTime "2006-01-02 15:04:05"}}</th>
+                            {{if $isLogin}}
                             <th>
                                 <span class="btn btn-info btn-xs">
                                     <a class="option" href="/topic/modify?tid={{.Id}}">修改</a>
@@ -40,6 +52,7 @@
                                     <a class="option" href="/topic/delete/{{.Id}}?category={{.Category}}">删除</a>
                                 </span>
                             </th>
+                            {{end}}
                         </tr>
                         {{end}}
                     </tbody>

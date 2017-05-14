@@ -14,9 +14,7 @@ type TopicController struct {
 func (this *TopicController)Get()  {
 	this.Data["IsTopic"]=true
 	this.TplName="topic.html"
-	uname:=this.GetSession("uname")
-	pwd:=this.GetSession("pwd")
-	this.Data["IsLogin"] = checkAccount(uname, pwd)
+	this.Data["IsLogin"] = checkLoginAccount(this.Controller)
 	topics,err:=models.GetAllTopics("","",false)
 	beego.Warn(len(topics))
 	if err != nil {
@@ -28,11 +26,9 @@ func (this *TopicController)Get()  {
 }
 
 func (this *TopicController) Post()  {
-	uname:=this.GetSession("uname")
-	pwd:=this.GetSession("pwd")
-	this.Data["IsLogin"] = checkAccount(uname, pwd)
+	this.Data["IsLogin"] = checkLoginAccount(this.Controller)
 	//判断是否登录
-	if !checkAccount(uname, pwd) {
+	if !checkLoginAccount(this.Controller) {
 		beego.Warn("添加文章操作，没有登录，请登录！")
 		this.Redirect("/login",302)
 		return
@@ -127,9 +123,8 @@ func (this *TopicController)View()  {
 		return
 	}
 	this.Data["Replies"]=replies
-	uname:=this.GetSession("uname")
-	pwd:=this.GetSession("pwd")
-	this.Data["IsLogin"] = checkAccount(uname, pwd)
+
+	this.Data["IsLogin"] = checkLoginAccount(this.Controller)
 }
 
 func (this *TopicController)Modify(){
@@ -146,10 +141,8 @@ func (this *TopicController)Modify(){
 	this.Data["Tid"]=tid
 }
 
-func (this *TopicController)Delete()  {
-	uname:=this.GetSession("uname")
-	pwd:=this.GetSession("pwd")
-	if !checkAccount(uname,pwd) {
+func (this *TopicController)Delete(){
+	if !checkLoginAccount(this.Controller) {
 		beego.Warn("删除文章操作，没有登录，请登录！")
 		this.Redirect("/login",302)
 		return

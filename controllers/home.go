@@ -12,12 +12,10 @@ type MainController struct {
 
 func (this *MainController) Get() {
 	//获取Session中保存的数据
-	uname := this.GetSession("uname")
-	pwd := this.GetSession("pwd")
 
 	this.Data["IsHome"] = true
 	this.TplName = "home.html"
-	this.Data["IsLogin"] = checkAccount(uname, pwd)
+	this.Data["IsLogin"] = checkLoginAccount(this.Controller)
 	fmt.Printf("isLogin：%t", this.Data["IsLogin"])
 	cate := this.Input().Get("cate")
 	label := this.Input().Get("label")
