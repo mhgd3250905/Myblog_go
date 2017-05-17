@@ -1,20 +1,35 @@
 {{define "navbar"}}
-<a class="navbar-brand" href="/">我的博客</a>
-<div>
-    <ul class="nav navbar-nav">
-        <li {{if .IsHome}}class="active"{{end}}><a href="/">首页</a></li>
-        <li {{if .IsCategory}}class="active"{{end}}><a href="/category">分类</a></li>
-        <li {{if .IsTopic}}class="active"{{end}}><a href="/topic">文章</a></li>
-    </ul>
-</div>
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">我的博客</a>
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="collapse navbar-collapse" id="nav-collapse">
+            <div>
+                <ul class="nav navbar-nav" style="margin-top: 0px">
+                    <li {{if .IsHome}}class="active" {{end}}><a href="/"><span class="glyphicon glyphicon-home"></span> 首页</a>
+                    </li>
+                    <li {{if .IsCategory}}class="active" {{end}}><a href="/category"><span class="glyphicon glyphicon-th-large"></span> 分类</a></li>
+                    <li {{if .IsTopic}}class="active" {{end}}><a href="/topic"><span class="glyphicon glyphicon-list-alt"></span> 文章</a></li>
+                </ul>
+            </div>`
+            <div class="pull-right">
+                <ul class="nav navbar-nav">
+                    {{if .IsLogin}}
+                    <li><a href="/login?exit=true"><span class="glyphicon glyphicon-off"></span> 退出</a></li>
+                    {{else}}
+                    <li><a href="/login"><span class="glyphicon glyphicon-user"></span> 管理员登录</a></li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
 
-<div class="pull-right">
-    <ul class="nav navbar-nav">
-        {{if .IsLogin}}
-            <li><a href="/login?exit=true">退出</a></li>
-        {{else}}
-            <li><a href="/login">管理员登录</a></li>
-        {{end}}
-    </ul>
+
+    </div>
 </div>
 {{end}}
