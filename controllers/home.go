@@ -31,5 +31,6 @@ func (this *MainController) Get() {
 		beego.Error(err)
 	}
 
+	beego.Info("当前获取到的主题数目为：",len(categories))
 	this.Data["Categories"] = categories
 }

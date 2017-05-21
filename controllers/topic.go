@@ -11,6 +11,8 @@ import (
 	"strings"
 	"time"
 	"fmt"
+	"github.com/russross/blackfriday"
+	"github.com/microcosm-cc/bluemonday"
 )
 
 type TopicController struct {
@@ -45,17 +47,19 @@ func (this *TopicController) Post() {
 	if err := this.ParseForm(&testTopic); err != nil {
 		beego.Error(err)
 	}
-	//beego.Info("获取到Topic-----------------------------")
-	//beego.Info(testTopic)
-	//beego.Info("获取到Topic-----------------------------")
 
-	//保存图片
-	topicContent,err:=saveImgAndReplace(&testTopic)
-	if err != nil {
-		beego.Warn("content转换失败！")
-	}
+	beego.Info("获取到Topic-----------------------------")
+	beego.Info(testTopic)
+	beego.Info("获取到Topic-----------------------------")
 
-	testTopic.Content=topicContent
+
+	////保存图片
+	//topicContent,err:=saveImgAndReplace(&testTopic)
+	//if err != nil {
+	//	beego.Warn("content转换失败！")
+	//}
+	//
+	//testTopic.Content=topicContent
 
 
 	//获取附件
@@ -100,12 +104,14 @@ func (this *TopicController) Post() {
 
 //增加文章
 func (this *TopicController) Add() {
+
 	categories, err := models.GetAllCategories()
 	if err != nil {
 		beego.Error(err)
 	}
 	this.Data["Categories"] = categories
 	this.TplName = "topic_add.html"
+	this.Data["IsLogin"] = checkLoginAccount(this.Controller)
 }
 
 //文章详情
@@ -117,6 +123,11 @@ func (this *TopicController) View() {
 		this.Redirect("/", 302)
 		return
 	}
+
+	unsafe := blackfriday.MarkdownCommon([]byte(topic.Content))
+	html := bluemonday.UGCPolicy().SanitizeBytes(unsafe)
+
+	topic.Content=string(html)
 	this.Data["Topic"] = topic
 	this.Data["Tid"] = this.Ctx.Input.Param("0")
 	var splitLabel []string

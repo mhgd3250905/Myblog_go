@@ -1,0 +1,78 @@
+body {
+    background-color: #eeeeee;
+}
+
+#information{
+    background-color: #eeeeee;
+    padding: 40px 0px;
+}
+
+.info-content{
+    background-color: #ffffff;
+    margin: 0 0 20px 0;
+    box-shadow: 2px 2px 3px #ccc;
+    border-radius: 5px;
+}
+
+.info-content img{
+    margin: 12px 0;
+}
+
+.info-content h1{
+    color: #333333;
+    font-size: 20px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.info-content h5{
+    color: #333333;
+    padding: 2px 0 0 0;
+}
+
+.info-content h6{
+    color: #333333;
+}
+
+.info-right{
+    background-color: #fff;
+    box-shadow: 2px 2px 3px #ccc;
+    border-radius: 5px;
+}
+
+.info-right h2{
+    font-size: 20px;
+    color: #333333;
+}
+
+/*小屏幕*/
+@media (min-width: 768px){
+    .info-content h1{
+        color: #333333;
+        font-size: 22px;
+    }
+}
+
+/*中等屏幕*/
+@media (min-width: 992px){
+    .info-content h1{
+        color: #333333;
+        font-size: 24px;
+    }
+}
+
+/*大屏幕*/
+@media (min-width: 1200px){
+    .info-content h1{
+        color: #333333;
+        font-size: 26px;
+    }
+}
+
+
+
+
+
+
+

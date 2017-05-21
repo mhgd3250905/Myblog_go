@@ -1,0 +1,22 @@
+.edit-topic-add{
+    background-color: #555555;
+    color: #11f8ff;
+    height: 100%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 17px;
+}
+
+
+.submit-topic-add{
+    margin: 0;
+}
+.edit-topic-add{
+    height: 80%;
+    width: 100%;
+
+}
+
+body,html,.form-container{
+    height: 100%;
+}

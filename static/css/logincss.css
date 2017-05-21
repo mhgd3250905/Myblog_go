@@ -10,9 +10,17 @@
     margin-top: -250px;
 }
 
+
 .login_form{
+    background-color: #ffffff;
     padding: 30px;
-    border:2px solid;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #555;
     border-radius: 10px;
-    box-shadow: 10px 10px 5px #888888;
+    box-shadow: 5px 5px 8px #ccc;
+}
+
+.login_form button{
+    width: 30%;
 }

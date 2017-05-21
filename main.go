@@ -28,6 +28,7 @@ func main() {
 	beego.Router("/reply",&controllers.ReplyController{})
 	beego.Router("/reply/add",&controllers.ReplyController{},"post:Add")
 	beego.Router("/reply/delete",&controllers.ReplyController{},"get:Delete")
+	beego.Router("/fang",&controllers.FangController{})
 
 	//创建附件目录
 	os.Mkdir("attachment",os.ModePerm)

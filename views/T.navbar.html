@@ -9,6 +9,7 @@
                 <span class="icon-bar"></span>
             </button>
         </div>
+
         <div class="collapse navbar-collapse" id="nav-collapse">
             <div>
                 <ul class="nav navbar-nav" style="margin-top: 0px">
@@ -17,7 +18,8 @@
                     <li {{if .IsCategory}}class="active" {{end}}><a href="/category"><span class="glyphicon glyphicon-th-large"></span> 分类</a></li>
                     <li {{if .IsTopic}}class="active" {{end}}><a href="/topic"><span class="glyphicon glyphicon-list-alt"></span> 文章</a></li>
                 </ul>
-            </div>`
+            </div>
+
             <div class="pull-right">
                 <ul class="nav navbar-nav">
                     {{if .IsLogin}}
@@ -28,8 +30,6 @@
                 </ul>
             </div>
         </div>
-
-
     </div>
 </div>
 {{end}}
